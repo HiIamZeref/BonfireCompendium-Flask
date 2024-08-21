@@ -8,20 +8,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
-from models import (
-    Developer,
-    Follower,
-    game_platform, 
-    GameStatus,
-    Game,
-    Genre,
-    Platform,
-    Publisher,
-    user_gamelist_has_game,
-    UserGameList,
-    UserReview,
-    User
-)
+
+from models import *
+
 migrate = Migrate(app, db)
 
 

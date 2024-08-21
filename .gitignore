@@ -3,3 +3,6 @@ db.sqlite3
 
 # Ignoring .env file
 .env
+
+# Ignoring __pycache__ folder
+__pycache__
