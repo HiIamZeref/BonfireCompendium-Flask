@@ -1,8 +1,11 @@
 # Ignoring sqlite database
-db.sqlite3
+db.sqlite
 
 # Ignoring .env file
 .env
 
 # Ignoring __pycache__ folder
 __pycache__
+
+# Ignoring instance folder
+instance/
