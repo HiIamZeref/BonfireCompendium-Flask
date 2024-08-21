@@ -1,14 +1,14 @@
 from app import db
 
-class Publisher(db.Model):
-    __tablename__ = 'publishers'
+class GameStatus(db.Model):
+    __tablename__ = 'game_statuses'
 
     # Columns
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), unique=True, nullable=False)
 
     # Relationships
-    games = db.relationship('Game', backref='publisher', lazy=True)
+    user_reviews = db.relationship('UserReview', backref='game_status')
     
     def __repr__(self):
-        return f'<Publisher {self.name}>'
+        return f'<Status {self.name}>'
