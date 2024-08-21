@@ -1,5 +1,5 @@
 from app import db
-from .gamelist_has_game import gamelist_has_game
+from .user_gamelist_has_game import user_gamelist_has_game
 
 class UserGameList(db.Model):
     __tablename__ = 'user_gamelists'
@@ -12,7 +12,7 @@ class UserGameList(db.Model):
 
     # Relationships
     user = db.relationship('User', backref='user_gamelists', lazy=True)
-    games = db.relationship('Game', secondary=gamelist_has_game, backref='user_gamelists')
+    games = db.relationship('Game', secondary=user_gamelist_has_game, backref='user_gamelists')
 
     def __repr__(self):
         return f'<UserGameList {self.user_id}>'

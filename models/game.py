@@ -1,6 +1,6 @@
 from app import db
 from .game_platform import game_platform
-from .user_gamelist_has_game import gamelist_has_game
+from .user_gamelist_has_game import user_gamelist_has_game
 
 class Game(db.Model):
     __tablename__ = 'games'
@@ -17,7 +17,7 @@ class Game(db.Model):
 
     # Relationships
     platforms = db.relationship('Platform', secondary=game_platform, backref='games')
-    user_gamelist = db.relationship('UserGameList', secondary=gamelist_has_game, backref='games')
+    user_gamelist = db.relationship('UserGameList', secondary=user_gamelist_has_game, backref='games')
     
     def __repr__(self):
         return f'<Game {self.title}>'

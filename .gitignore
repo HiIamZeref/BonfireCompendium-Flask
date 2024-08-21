@@ -1,0 +1,5 @@
+# Ignoring sqlite database
+db.sqlite3
+
+# Ignoring .env file
+.env

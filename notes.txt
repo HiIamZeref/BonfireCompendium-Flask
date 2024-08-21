@@ -1,0 +1,12 @@
+flask db init
+-   This command initializes the database.
+    It creates a migrations folder in the root directory of the project.
+    This folder contains the migration scripts that are used to apply changes to the database schema.
+
+flask db migrate
+-   This command generates a migration script that describes the changes to be applied to the database schema.
+    It compares the current state of the database with the models defined in the application and generates a script that applies the necessary changes.
+
+flask db upgrade
+-   This command applies the migration script to the database, making the necessary changes to the database schema.
+    It updates the database to match the models defined in the application.
