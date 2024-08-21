@@ -1,3 +1,4 @@
+Flask-Migrate:
 flask db init
 -   This command initializes the database.
     It creates a migrations folder in the root directory of the project.
@@ -10,3 +11,6 @@ flask db migrate
 flask db upgrade
 -   This command applies the migration script to the database, making the necessary changes to the database schema.
     It updates the database to match the models defined in the application.
+
+marshmallow:
+dump_only == read_only ; load_only == write_only
