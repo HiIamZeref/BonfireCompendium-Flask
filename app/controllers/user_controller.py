@@ -71,5 +71,5 @@ def delete_user(user_id, user_service: UserService = UserService()):
 users.add_url_rule('/', 'create_user', create_user, methods=['POST'])
 users.add_url_rule('/<int:user_id>', 'get_user', get_user, methods=['GET'])
 users.add_url_rule('/', 'get_all_users', get_all_users, methods=['GET'])
-users.add_url_rule('/<int:user_id>', 'update_user', update_user, methods=['PUT'])
+users.add_url_rule('/<int:user_id>', 'update_user', update_user, methods=['PATCH'])
 users.add_url_rule('/<int:user_id>', 'delete_user', delete_user, methods=['DELETE'])
