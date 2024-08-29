@@ -7,6 +7,7 @@ from app.config.config import Config
 import os
 
 
+
 # Load environment variables
 load_dotenv()
 
@@ -51,4 +52,5 @@ from app.models import (
 # Register routes
 from app.routes import api
 app.register_blueprint(api, url_prefix='/api/v1')
+
 
