@@ -9,3 +9,6 @@ __pycache__
 
 # Ignoring instance folder
 instance/
+
+# Ignoring migrations folder
+migrations/

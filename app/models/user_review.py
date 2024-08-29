@@ -1,5 +1,7 @@
 from app import db
 from sqlalchemy import CheckConstraint
+from flask_sqlalchemy import SQLAlchemy
+
 
 class UserReview(db.Model):
     __tablename__ = 'user_reviews'
@@ -15,7 +17,6 @@ class UserReview(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
-    
-
+   
     def __repr__(self):
         return f'<UserReview {self.id}>'

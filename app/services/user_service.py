@@ -1,11 +1,15 @@
-from flask_injector import inject
-from repositories.user_repository import UserRepository
+from app.repositories.user_repository import UserRepository
 
-@inject
+
+
+
+
+
 class UserService:
-    def __init__(self, user_repository: UserRepository) -> None:
+    def __init__(self, user_repository: UserRepository = UserRepository()) -> None:
         self.user_repository = user_repository
 
+    
     def create(self, validated_data):
         # Check if email already exists
         user = self.user_repository.get_by_email(validated_data['email'])

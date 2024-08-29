@@ -1,6 +1,6 @@
 from app import db
-from .game_platform import game_platform
-from .user_gamelist_has_game import user_gamelist_has_game
+from app.models.game_platform import game_platform
+from app.models.user_gamelist_has_game import user_gamelist_has_game
 
 class Game(db.Model):
     __tablename__ = 'games'
@@ -16,8 +16,9 @@ class Game(db.Model):
     cover_image = db.Column(db.String(255), nullable=True)
 
     # Relationships
-    platforms = db.relationship('Platform', secondary=game_platform, backref='games')
-    user_gamelist = db.relationship('UserGameList', secondary=user_gamelist_has_game, backref='games')
+    platforms = db.relationship('Platform', secondary=game_platform)
+    user_gamelist = db.relationship('UserGameList', secondary=user_gamelist_has_game)
+    user_reviews = db.relationship('UserReview', backref='game')
     
     def __repr__(self):
         return f'<Game {self.title}>'

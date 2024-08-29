@@ -1,16 +1,30 @@
-from models import User
+from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
 from app import db, bcrypt
+from app.models.user import User
+
+
+
 
 class UserRepository:
+    def __init__(
+        self,
+        db: SQLAlchemy = db,
+        bcrypt: Bcrypt = bcrypt) -> None:
+
+        self.db = db
+        self.bcrypt = bcrypt
+
+
     def create(self, data):
         password = data.pop('password')
-        hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+        hashed_password = self.bcrypt.generate_password_hash(password).decode('utf-8')
         data['password'] = hashed_password
 
         user = User(**data)
         
-        db.session.add(user)
-        db.session.commit()
+        self.db.session.add(user)
+        self.db.session.commit()
         return user
     
     def get(self, id):
@@ -23,12 +37,12 @@ class UserRepository:
         for key, value in data.items():
             setattr(user, key, value)
         
-        db.session.commit()
+        self.db.session.commit()
         return user
     
     def delete(self, user):
-        db.session.delete(user)
-        db.session.commit()
+        self.db.session.delete(user)
+        self.db.session.commit()
         return user
     
     def get_by_email(self, email):
