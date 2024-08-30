@@ -49,6 +49,14 @@ from app.models import (
     User
 )
 
+# Seed the database
+from app.seeds import seed_users
+
+@app.cli.command("seed:users")
+def seed_users_command():
+    seed_users()
+
+
 # Register routes
 from app.routes import api
 app.register_blueprint(api, url_prefix='/api/v1')

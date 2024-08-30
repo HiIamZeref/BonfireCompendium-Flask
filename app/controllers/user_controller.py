@@ -9,7 +9,7 @@ from app.services.user_service import UserService
 # Blueprint for users
 users = Blueprint('users', __name__)
 
-# Dependency injection with Flask-Injector
+# User Controller Routes
 
 def create_user(user_service: UserService = UserService()):
     """Create a new user."""
@@ -36,7 +36,7 @@ def get_user(user_id, user_service: UserService = UserService()):
 
 def get_all_users(user_service: UserService = UserService()):
     """Get all users."""
-    users = user_service.get_all()  # This line expects user_service to be an instance of UserService
+    users = user_service.get_all() 
     return jsonify(UserSchema(many=True).dump(users)), 200
 
 
