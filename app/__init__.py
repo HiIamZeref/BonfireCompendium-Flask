@@ -49,40 +49,9 @@ from app.models import (
     User
 )
 
-# Seed the database
-from app.seeds import (
-    seed_developers,
-    seed_genres,
-    seed_publishers,
-    seed_users
-)
-
-# Individual seed commands
-@app.cli.command("seed:developers")
-def seed_developers_command():
-    seed_developers()
-
-@app.cli.command("seed:genres")
-def seed_genres_command():
-    seed_genres()
-
-@app.cli.command("seed:publishers")
-def seed_publishers_command():
-    seed_publishers()
-
-@app.cli.command("seed:users")
-def seed_users_command():
-    seed_users()
-
-# Full seed command
-@app.cli.command("seed")
-def seed_command():
-    
-    seed_developers()
-    seed_genres()
-    seed_publishers()
-    seed_users()
-    print('Seeds ran successfully!')
+# Register commands
+from app.commands.seed import register_seed_commands
+register_seed_commands(app)
 
 
 # Register routes
