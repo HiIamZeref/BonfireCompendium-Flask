@@ -2,6 +2,7 @@ from flask.cli import AppGroup
 from app.seeds import (
     seed_developers,
     seed_genres,
+    seed_platforms,
     seed_publishers,
     seed_users
 )
@@ -18,6 +19,10 @@ def seed_developers_command():
 @seed_cli.command("genres")
 def seed_genres_command():
     seed_genres()
+
+@seed_cli.command("platforms")
+def seed_platforms_command():
+    seed_platforms()
 
 @seed_cli.command("publishers")
 def seed_publishers_command():
