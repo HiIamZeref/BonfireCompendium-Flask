@@ -1,6 +1,7 @@
 from flask.cli import AppGroup
 from app.seeds import (
     seed_developers,
+    seed_game_statuses,
     seed_genres,
     seed_platforms,
     seed_publishers,
@@ -15,6 +16,10 @@ seed_cli = AppGroup('seed')
 @seed_cli.command("developers")
 def seed_developers_command():
     seed_developers()
+
+@seed_cli.command("game_statuses")
+def seed_game_statuses_command():
+    seed_game_statuses()
 
 @seed_cli.command("genres")
 def seed_genres_command():
@@ -37,6 +42,7 @@ def seed_users_command():
 def seed_command():
 
     seed_developers()
+    seed_game_statuses()
     seed_genres()
     seed_publishers()
     seed_users()
