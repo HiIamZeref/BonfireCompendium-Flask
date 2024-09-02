@@ -4,7 +4,7 @@ from app.schemas.publisher_schema import PublisherSchema
 def seed_publishers(publisher_repository: PublisherRepository= PublisherRepository()):
     publishers = [
         {
-            'name': 'Banda Namco'
+            'name': 'Bandai Namco'
         },
         {
             'name': 'Sony Interactive Entertainment'
