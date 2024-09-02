@@ -53,6 +53,7 @@ from app.models import (
 from app.seeds import (
     seed_developers,
     seed_genres,
+    seed_publishers,
     seed_users
 )
 
@@ -65,6 +66,10 @@ def seed_developers_command():
 def seed_genres_command():
     seed_genres()
 
+@app.cli.command("seed:publishers")
+def seed_publishers_command():
+    seed_publishers()
+
 @app.cli.command("seed:users")
 def seed_users_command():
     seed_users()
@@ -72,8 +77,10 @@ def seed_users_command():
 # Full seed command
 @app.cli.command("seed")
 def seed_command():
+    
     seed_developers()
     seed_genres()
+    seed_publishers()
     seed_users()
     print('Seeds ran successfully!')
 
