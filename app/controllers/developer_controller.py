@@ -18,3 +18,7 @@ def get_all_developers(developer_service: DeveloperService = DeveloperService())
     """Get all developers."""
     developers = developer_service.get_all()
     return jsonify(DeveloperSchema(many=True).dump(developers)), 200
+
+
+developers.add_url_rule('/<int:developer_id>', 'get_developer', get_developer, methods=['GET'])
+developers.add_url_rule('/', 'get_all_developers', get_all_developers, methods=['GET'])
