@@ -52,22 +52,28 @@ from app.models import (
 # Seed the database
 from app.seeds import (
     seed_developers,
+    seed_genres,
     seed_users
 )
 
 # Individual seed commands
-@app.cli.command("seed:users")
-def seed_users_command():
-    seed_users()
-
 @app.cli.command("seed:developers")
 def seed_developers_command():
     seed_developers()
+
+@app.cli.command("seed:genres")
+def seed_genres_command():
+    seed_genres()
+
+@app.cli.command("seed:users")
+def seed_users_command():
+    seed_users()
 
 # Full seed command
 @app.cli.command("seed")
 def seed_command():
     seed_developers()
+    seed_genres()
     seed_users()
     print('Seeds ran successfully!')
 
