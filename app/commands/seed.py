@@ -44,6 +44,7 @@ def seed_command():
     seed_developers()
     seed_game_statuses()
     seed_genres()
+    seed_platforms()
     seed_publishers()
     seed_users()
     print('Seeds ran successfully!')
