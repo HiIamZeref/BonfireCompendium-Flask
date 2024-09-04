@@ -39,6 +39,7 @@ class FollowerService:
             The UserRepository instance (default is the UserRepository instance from app).
         '''
         self.follower_repository = follower_repository
+        self.user_repository = user_repository
 
     def follow(self, data):
         '''

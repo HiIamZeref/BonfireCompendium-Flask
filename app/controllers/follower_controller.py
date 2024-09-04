@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from app.services.follower_service import FollowerService
 from app.schemas.follower_schema import FollowerSchema
 
@@ -6,14 +6,16 @@ from app.schemas.follower_schema import FollowerSchema
 followers = Blueprint('followers', __name__)
 
 # Follower Controller Routes
-def follow(data, follower_service: FollowerService = FollowerService()):
+def follow(follower_service: FollowerService = FollowerService()):
     """Follow a user."""
+    data = request.get_json()
     follower = follower_service.follow(data)
     return jsonify(FollowerSchema().dump(follower)), 201
 
-def unfollow(follower, follower_service: FollowerService = FollowerService()):
+def unfollow(follower_service: FollowerService = FollowerService()):
     """Unfollow a user."""
-    follower_service.unfollow(follower)
+    data = request.get_json()
+    follower_service.unfollow(data)
     return jsonify({'message': 'Unfollowed successfully'}), 200
 
 def get_followers(user_id, follower_service: FollowerService = FollowerService()):
