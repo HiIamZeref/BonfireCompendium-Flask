@@ -41,7 +41,7 @@ class GamePlatformRepository:
 
     def create(self, data):
         '''
-        Create a new game platform.
+        Create a new game platform relation.
 
         Parameters:
         ----------
@@ -60,7 +60,7 @@ class GamePlatformRepository:
     
     def get(self, id):
         '''
-        Retrieve a game platform by its ID.
+        Retrieve a game platform relation by its ID.
 
         Parameters:
         ----------
@@ -76,7 +76,7 @@ class GamePlatformRepository:
 
     def get_all(self):
         '''
-        Retrieve all game platforms.
+        Retrieve all game platforms relations.
 
         Returns:
         -------
@@ -85,25 +85,49 @@ class GamePlatformRepository:
         '''
         return GamePlatform.query.all()
 
-    def update(self, game_platform, data):
+    
+    def delete(self, game_platform):
         '''
-        Update an existing game platform with the provided data.
+        Delete a game platform relation.
 
         Parameters:
         ----------
         game_platform : GamePlatform
-            The GamePlatform object to update.
-        data : dict
-            A dictionary containing the new game platform data.
+            The GamePlatform object to delete.
+        '''
+        self.db.session.delete(game_platform)
+        self.db.session.commit()
+    
+    def get_all_platforms(self, game_id):
+        '''
+        Retrieve all platforms for a given game.
+
+        Parameters:
+        ----------
+        game_id : int
+            The ID of the game to retrieve game platforms for.
 
         Returns:
         -------
-        GamePlatform
-            The updated GamePlatform object.
+        list[GamePlatform]
+            A list of GamePlatform objects for the specified game.
         '''
-        for key, value in data.items():
-            setattr(game_platform, key, value)
-        self.db.session.commit()
-        return game_platform
+        return GamePlatform.query.filter_by(game_id=game_id).all()
+    
+    def get_all_games(self, platform_id):
+        '''
+        Retrieve all games for a given platform.
+
+        Parameters:
+        ----------
+        platform_id : int
+            The ID of the platform to retrieve games for.
+
+        Returns:
+        -------
+        list[GamePlatform]
+            A list of GamePlatform objects for the specified platform.
+        '''
+        return GamePlatform.query.filter_by(platform_id=platform_id).all()
     
     
