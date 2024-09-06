@@ -41,6 +41,25 @@ class FollowerService:
         self.follower_repository = follower_repository
         self.user_repository = user_repository
 
+
+    def get_relation(self, user_id, follower_id):
+        '''
+        Get a follower relationship.
+
+        Parameters:
+        ----------
+        user_id : int
+            The ID of the user to retrieve the relationship for.
+        follower_id : int
+            The ID of the follower to retrieve the relationship for.
+
+        Returns:
+        -------
+        Follower
+            The Follower object.
+        '''
+        return self.follower_repository.get(user_id, follower_id)
+
     def follow(self, data):
         '''
         Follow a user.
@@ -55,10 +74,15 @@ class FollowerService:
         Follower
             The created Follower object.
         '''
-        # Check if user exits
+        # Check if relationship already exists
+        if self.follower_repository.get(data['user_id'], data['follower_id']):
+            raise ValueError('Error: Relationship already exists')
+
+        # Check if user or followers exists
         user = self.user_repository.get(data['user_id'])
-        if not user:
-            raise ValueError('User not found')
+        follower = self.user_repository.get(data['follower_id'])
+        if (not user) or (not follower):
+            raise ValueError('Error: User does not exist')
         
         
         return self.follower_repository.create(data)
