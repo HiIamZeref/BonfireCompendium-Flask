@@ -16,6 +16,8 @@ class FollowerRepository:
 
     Methods:
     -------
+    get(user_id: int, follower_id: int) -> Follower:
+        Retrieves a follower relationship.
     create(data: dict) -> Follower:
         Creates a new follower with the provided data.
     delete(follower: Follower) -> Follower:
@@ -37,6 +39,25 @@ class FollowerRepository:
         '''
         self.db = db
 
+
+    def get(self, user_id, follower_id):
+        '''
+        Get a follower relationship.
+
+        Parameters:
+        ----------
+        user_id : int
+            The ID of the user to retrieve the relationship for.
+        follower_id : int
+            The ID of the follower to retrieve the relationship for.
+
+        Returns:
+        -------
+        Follower
+            The Follower object.
+        '''
+        return Follower.query.filter_by(user_id=user_id, follower_id=follower_id).first()
+
     def create(self, data):
         '''
         Create a new follower.
@@ -57,7 +78,7 @@ class FollowerRepository:
         return follower
 
     
-    def delete(self, follower):
+    def delete(self, relation):
         '''
         Delete a follower.
 
@@ -66,8 +87,14 @@ class FollowerRepository:
         follower : Follower
             The Follower object to delete.
         '''
-        self.db.session.delete(follower)
-        self.db.session.commit()
+        print(relation)
+        relation = Follower.query.filter_by(user_id=relation.get('user_id'), follower_id=relation.get('follower_id')).first()
+
+        if relation:
+            self.db.session.delete(relation)
+            self.db.session.commit()
+        else:
+            return 
 
     def get_followers(self, user_id):
         '''
