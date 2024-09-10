@@ -21,6 +21,17 @@ GET /<int:game_id>:
         - 404: Game not found.
 
 GET /:
+    Get a list of all games.
+    - Responses:
+        - 200: List of games returned successfully.
+
+GET /title:
+    Get a game by its title.
+    - Parameters:
+        - title (str): The title of the game to retrieve.
+    - Responses:
+        - 200: Game found and returned successfully.
+        - 404: Game not found.
 
 Attributes:
 -----------
