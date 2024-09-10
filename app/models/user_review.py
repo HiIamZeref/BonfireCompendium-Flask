@@ -17,6 +17,12 @@ class UserReview(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
+    # Relationships
+    game = db.relationship('Game',foreign_keys=[game_id], backref='user_reviews')
+    user = db.relationship('User', foreign_keys=[user_id], backref='user_reviews')
+    status = db.relationship('GameStatus', foreign_keys=[status_id], backref='user_reviews')
+
+
    
     def __repr__(self):
         return f'<UserReview {self.id}>'
