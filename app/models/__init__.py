@@ -6,6 +6,7 @@ from app.models.game import Game
 from app.models.genre import Genre
 from app.models.platform import Platform
 from app.models.publisher import Publisher
+from app.models.user_backlog import UserBacklog
 from app.models.user_gamelist_has_game import user_gamelist_has_game
 from app.models.user_gamelist import UserGameList
 from app.models.user_review import UserReview
