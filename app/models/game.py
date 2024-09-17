@@ -54,7 +54,6 @@ class Game(db.Model):
     # Relationships
     platforms = db.relationship('Platform', secondary=game_platform)
     user_gamelist = db.relationship('UserGameList', secondary=user_gamelist_has_game)
-    user_reviews = db.relationship('UserReview', backref='game')
     
     def __repr__(self):
         return f'<Game {self.title}>'

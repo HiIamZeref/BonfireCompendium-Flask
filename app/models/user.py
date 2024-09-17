@@ -15,7 +15,6 @@ class User(db.Model):
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), onupdate=db.func.now())
     
     # Relationships
-    user_reviews = db.relationship('UserReview', backref='user')
     user_gamelists = db.relationship('UserGameList')
     followed_users = db.relationship(
         'User',
