@@ -1,5 +1,4 @@
 from app.repositories.follower_repository import FollowerRepository
-from app.repositories.user_repository import UserRepository
 
 class FollowerService:
     """
@@ -26,8 +25,7 @@ class FollowerService:
     """
     
     def __init__(self,
-                 follower_repository: FollowerRepository= FollowerRepository(),
-                 user_repository: UserRepository = UserRepository()):
+                 follower_repository: FollowerRepository= FollowerRepository()):
         '''
         Initializes the FollowerService with the given FollowerRepository.
 
@@ -35,11 +33,8 @@ class FollowerService:
         ----------
         follower_repository : FollowerRepository, optional
             The FollowerRepository instance (default is the FollowerRepository instance from app).
-        user_repository : UserRepository, optional
-            The UserRepository instance (default is the UserRepository instance from app).
         '''
         self.follower_repository = follower_repository
-        self.user_repository = user_repository
 
 
     def get_relation(self, user_id, follower_id):
