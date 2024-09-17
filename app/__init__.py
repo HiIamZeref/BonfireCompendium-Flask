@@ -46,7 +46,8 @@ from app.models import (
     user_gamelist_has_game,
     UserGameList,
     UserReview,
-    User
+    User,
+    UserBacklog
 )
 
 # Register commands
