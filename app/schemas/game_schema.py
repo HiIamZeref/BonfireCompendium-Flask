@@ -5,9 +5,9 @@ class GameSchema(Schema):
     Schema for Game model.
     '''
     id = fields.Integer(dump_only=True)
-    title = fields.Str(required=True)
-    description = fields.Str(required=True)
-    release_date = fields.Date(required=True)
+    title = fields.Str(dump_only=True)
+    description = fields.Str(dump_only=True)
+    release_date = fields.Date(dump_only=True)
     genre = fields.Method("get_genre")
     developer = fields.Method("get_developer")
     publisher = fields.Method("get_publisher")
