@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from marshmallow import ValidationError
-from app.schemas.user_schema import GameSchema
+from app.schemas.game_schema import GameSchema
 from app.services.game_service import GameService
 
 
@@ -56,15 +56,16 @@ def get_all_games(game_service: GameService = GameService()):
     games = game_service.get_all()
     return jsonify(GameSchema(many=True).dump(games)), 200
 
-def get_game_by_title(title, game_service: GameService = GameService()):
-    """Get a game by its title."""
+def get_games_by_title(game_service: GameService = GameService()):
+    """Get games by its title."""
+    title = request.get_json().get('title')
     game = game_service.get_by_title(title)
     if not game:
         return jsonify({'message': 'Game not found'}), 404
 
-    return jsonify(GameSchema().dump(game)), 200
+    return jsonify(GameSchema(many= True).dump(game)), 200
 
 # Register routes
 games.add_url_rule('/<int:game_id>', view_func=get_game, methods=['GET'])
 games.add_url_rule('/', view_func=get_all_games, methods=['GET'])
-games.add_url_rule('/title', view_func=get_game_by_title, methods=['GET'])
+games.add_url_rule('/title', view_func=get_games_by_title, methods=['GET'])

@@ -50,7 +50,8 @@ class GameRepository:
     
     def get_by_title(self, title):
         '''
-        Get a game by title.
+        Get games with the given title.
         '''
-        return Game.query.filter_by(title=title).first()
+        search_term = f'%{title}%'
+        return Game.query.filter(Game.title.ilike(search_term)).all()
         
