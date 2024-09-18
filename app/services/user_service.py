@@ -30,5 +30,17 @@ class UserService:
     def delete(self, user):
         return self.user_repository.delete(user)
     
+    def change_password(self, user, validated_data):
+        # Check if old password is correct
+        if not self.user_repository.check_password(user.password, validated_data['old_password']):
+            return {'message': 'Invalid credentials!'}
+        
+        # Check if new password is the same as old password
+        if validated_data['old_password'] == validated_data['new_password']:
+            return {'message': 'New password cannot be the same as old password!'}
+        
+        
+        return self.user_repository.change_password(user, validated_data)
+    
 
         

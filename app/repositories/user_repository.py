@@ -52,4 +52,14 @@ class UserRepository:
     def check_password(self, hash_password, password):
         return self.bcrypt.check_password_hash(hash_password, password)
     
+    def change_password(self, user, data):
+        new_password = self.bcrypt.generate_password_hash(data['new_password']).decode('utf-8')
+        user.password = new_password
+        
+        try:
+            self.db.session.commit()
+        except Exception as e:
+            self.db.session.rollback()
+            return {'message': 'An error occurred while changing password'}
+        
     
