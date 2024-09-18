@@ -13,17 +13,21 @@ def login(auth_service: AuthService = AuthService()):
     """Login a user."""
     data = request.get_json()
     login_schema = LoginSchema()
+    auth_schema = AuthSchema()
 
     try:
         validated_data = login_schema.load(data)
     except ValidationError as err:
         return jsonify({'message': 'Invalid credentials'}), 400
     
-    auth = auth_service.login(validated_data.get('username'), validated_data.get('password'))
+    auth_status = auth_service.login(validated_data.get('username'), validated_data.get('password'))
 
-    print(auth)
+    try:
+        response = auth_schema.load(auth_status)
+    except ValidationError as err:
+        return jsonify(auth_status), 400
     
-    return jsonify(AuthSchema().dump(auth))
+    return jsonify(response), 200
 
 
 @auth.route('/refresh', methods=['POST'])
@@ -36,7 +40,7 @@ def refresh(auth_service: AuthService = AuthService()):
 
 
 @auth.route('/logout', methods=['POST'])
-@jwt_required(refresh=True)
+@jwt_required()
 def logout(auth_service: AuthService = AuthService()):
     """Logout the current user."""
     auth_service.logout()
