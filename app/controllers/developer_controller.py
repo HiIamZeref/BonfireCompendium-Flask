@@ -6,6 +6,7 @@ from app.services.developer_service import DeveloperService
 developers = Blueprint('developers', __name__)
 
 # Developer Controller Routes
+@developers.route('/<int:developer_id>', methods=['GET'])
 def get_developer(developer_id, developer_service: DeveloperService = DeveloperService()):
     """Get a developer by ID."""
     developer = developer_service.get(developer_id)
@@ -14,11 +15,8 @@ def get_developer(developer_id, developer_service: DeveloperService = DeveloperS
 
     return jsonify(DeveloperSchema().dump(developer)), 200
 
+@developers.route('/', methods=['GET'])
 def get_all_developers(developer_service: DeveloperService = DeveloperService()):
     """Get all developers."""
     developers = developer_service.get_all()
     return jsonify(DeveloperSchema(many=True).dump(developers)), 200
-
-
-developers.add_url_rule('/<int:developer_id>', 'get_developer', get_developer, methods=['GET'])
-developers.add_url_rule('/', 'get_all_developers', get_all_developers, methods=['GET'])

@@ -43,6 +43,7 @@ games : Blueprint
 games = Blueprint('games', __name__)
 
 # Games Controller Routes
+@games.route('/<int:game_id>', methods=['GET'])
 def get_game(game_id, game_service: GameService = GameService()):
     """Get a game by ID."""
     game = game_service.get(game_id)
@@ -51,11 +52,13 @@ def get_game(game_id, game_service: GameService = GameService()):
 
     return jsonify(GameSchema().dump(game)), 200
 
+@games.route('/', methods=['GET'])
 def get_all_games(game_service: GameService = GameService()):
     """Get all games."""
     games = game_service.get_all()
     return jsonify(GameSchema(many=True).dump(games)), 200
 
+@games.route('/title', methods=['GET'])
 def get_games_by_title(game_service: GameService = GameService()):
     """Get games by its title."""
     title = request.get_json().get('title')
@@ -64,8 +67,3 @@ def get_games_by_title(game_service: GameService = GameService()):
         return jsonify({'message': 'Game not found'}), 404
 
     return jsonify(GameSchema(many= True).dump(game)), 200
-
-# Register routes
-games.add_url_rule('/<int:game_id>', view_func=get_game, methods=['GET'])
-games.add_url_rule('/', view_func=get_all_games, methods=['GET'])
-games.add_url_rule('/title', view_func=get_games_by_title, methods=['GET'])

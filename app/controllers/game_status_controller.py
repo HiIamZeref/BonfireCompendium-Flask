@@ -41,6 +41,7 @@ get_all_game_statuses(game_status_service: GameStatusService = GameStatusService
 game_statuses = Blueprint('game_statuses', __name__)
 
 # Game Status Controller Routes
+@game_statuses.route('/<int:game_status_id>', methods=['GET'])
 def get_game_status(game_status_id, game_status_service: GameStatusService = GameStatusService()):
     """Get a game status by ID."""
     game_status = game_status_service.get(game_status_id)
@@ -49,11 +50,9 @@ def get_game_status(game_status_id, game_status_service: GameStatusService = Gam
 
     return jsonify(GameStatusSchema().dump(game_status)), 200
 
+@game_statuses.route('/', methods=['GET'])
 def get_all_game_statuses(game_status_service: GameStatusService = GameStatusService()):
     """Get all game statuses."""
     game_statuses = game_status_service.get_all()
     return jsonify(GameStatusSchema(many=True).dump(game_statuses)), 200
 
-# Register routes
-game_statuses.add_url_rule('/<int:game_status_id>', view_func=get_game_status, methods=['GET'])
-game_statuses.add_url_rule('/', view_func=get_all_game_statuses, methods=['GET'])

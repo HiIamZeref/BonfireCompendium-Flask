@@ -2,13 +2,14 @@ from flask import Blueprint, request, jsonify
 from marshmallow import ValidationError
 from app.services.user_backlog_service import UserBacklogService
 from app.schemas.user_backlog_schema import UserBacklogSchema, CreateOrDeleteUserBacklogSchema
-
+from flask_jwt_extended import jwt_required
 
 
 # User Backlog Blueprint
 user_backlogs = Blueprint('user_backlog', __name__)
 
 # User Backlog Controller Routes
+@user_backlogs.route('/', methods=['GET'])
 def get_user_backlog(user_backlog_service: UserBacklogService = UserBacklogService()):
     """Get a user backlog entry."""
     data = request.get_json()
@@ -19,6 +20,8 @@ def get_user_backlog(user_backlog_service: UserBacklogService = UserBacklogServi
 
     return jsonify(UserBacklogSchema().dump(user_backlog)), 200
 
+@user_backlogs.route('/', methods=['POST'])
+@jwt_required()
 def create_user_backlog(user_backlog_service: UserBacklogService = UserBacklogService()):
     """Create a user backlog entry."""
     data = request.get_json()
@@ -33,6 +36,8 @@ def create_user_backlog(user_backlog_service: UserBacklogService = UserBacklogSe
 
     return jsonify(UserBacklogSchema().dump(user_backlog)), 201
 
+@user_backlogs.route('/', methods=['DELETE'])
+@jwt_required()
 def delete_user_backlog(user_backlog_service: UserBacklogService = UserBacklogService()):
     """Delete a user backlog entry."""
     data = request.get_json()
@@ -51,13 +56,8 @@ def delete_user_backlog(user_backlog_service: UserBacklogService = UserBacklogSe
 
     return jsonify({'message': 'User backlog entry deleted successfully'}), 204
 
+@user_backlogs.route('/<int:user_id>', methods=['GET'])
 def get_user_backlog_list(user_id, user_backlog_service: UserBacklogService = UserBacklogService()):
     """Get all games in a user's backlog."""
     user_backlog = user_backlog_service.get_backlog(user_id)
     return jsonify(UserBacklogSchema(many=True).dump(user_backlog)), 200
-
-# Register routes
-user_backlogs.add_url_rule('/', view_func=get_user_backlog, methods=['GET'])
-user_backlogs.add_url_rule('/', view_func=create_user_backlog, methods=['POST'])
-user_backlogs.add_url_rule('/', view_func=delete_user_backlog, methods=['DELETE'])
-user_backlogs.add_url_rule('/<int:user_id>', view_func=get_user_backlog_list, methods=['GET'])

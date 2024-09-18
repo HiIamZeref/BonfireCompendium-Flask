@@ -43,6 +43,7 @@ get_all_genres(genre_service: GenreService = GenreService()) -> Response:
 genres = Blueprint('genres', __name__)
 
 # Genre Controller Routes
+@genres.route('/<int:genre_id>', methods=['GET'])
 def get_genre(genre_id, genre_service: GenreService = GenreService()):
     """Get a genre by ID."""
     genre = genre_service.get(genre_id)
@@ -51,11 +52,8 @@ def get_genre(genre_id, genre_service: GenreService = GenreService()):
 
     return jsonify(GenreSchema().dump(genre)), 200
 
+@genres.route('/', methods=['GET'])
 def get_all_genres(genre_service: GenreService = GenreService()):
     """Get all genres."""
     genres = genre_service.get_all()
     return jsonify(GenreSchema(many=True).dump(genres)), 200
-
-# Register routes
-genres.add_url_rule('/<int:genre_id>', view_func=get_genre, methods=['GET'])
-genres.add_url_rule('/', view_func=get_all_genres, methods=['GET'])

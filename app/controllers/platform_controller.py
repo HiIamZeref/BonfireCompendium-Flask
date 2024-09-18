@@ -41,6 +41,7 @@ get_all_platforms(platform_service: PlatformService = PlatformService()) -> Resp
 platforms = Blueprint('platforms', __name__)
 
 # Platform Controller Routes
+@platforms.route('/<int:platform_id>', methods=['GET'])
 def get_platform(platform_id, platform_service: PlatformService = PlatformService()):
     """Get a platform by ID."""
     platform = platform_service.get(platform_id)
@@ -49,11 +50,8 @@ def get_platform(platform_id, platform_service: PlatformService = PlatformServic
 
     return jsonify(PlatformSchema().dump(platform)), 200
 
+@platforms.route('/', methods=['GET'])
 def get_all_platforms(platform_service: PlatformService = PlatformService()):
     """Get all platforms."""
     platforms = platform_service.get_all()
     return jsonify(PlatformSchema(many=True).dump(platforms)), 200
-
-# Register routes
-platforms.add_url_rule('/<int:platform_id>', view_func=get_platform, methods=['GET'])
-platforms.add_url_rule('/', view_func=get_all_platforms, methods=['GET'])
