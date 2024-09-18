@@ -1,4 +1,5 @@
 from flask import Blueprint
+from app.controllers.auth_controller import auth
 from app.controllers.developer_controller import developers
 from app.controllers.follower_controller import followers
 from app.controllers.game_controller import games
@@ -16,6 +17,7 @@ from app.controllers.user_review_controller import user_reviews
 api = Blueprint('api', __name__)
 
 # Registering blueprints
+api.register_blueprint(auth, url_prefix='/auth')
 api.register_blueprint(developers, url_prefix='/developers')
 api.register_blueprint(followers, url_prefix='/followers')
 api.register_blueprint(games, url_prefix='/games')

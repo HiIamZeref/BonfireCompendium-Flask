@@ -2,10 +2,11 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
+from flask_jwt_extended import JWTManager
 from dotenv import load_dotenv
 from app.config.config import Config
 import os
-
+from datetime import timedelta
 
 
 # Load environment variables
@@ -24,11 +25,19 @@ app.env = config.ENV
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv('SQLALCHEMY_DATABASE_URI')
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = os.getenv('SQLALCHEMY_TRACK_MODIFICATIONS')
 
+# Update configuration for JWT
+app.config["JWT_SECRET_KEY"] = os.getenv('JWT_SECRET_KEY')
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=7)
+
 # Initialize Flask extensions using the container
 db = SQLAlchemy(app)
 
 # Initialize Flask-Bcrypt
 bcrypt = Bcrypt(app)
+
+# Initialize Flask-JWT-Extended
+jwt = JWTManager(app)
 
 # Initialize Flask-Migrate
 migrate = Migrate(app, db)
