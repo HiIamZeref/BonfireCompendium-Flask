@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from app import db
-from app.models.game_platform import GamePlatform
+from app.models.game_platform import game_platform
+from sqlalchemy import text
 
 class GamePlatformRepository:
     '''
@@ -53,51 +54,51 @@ class GamePlatformRepository:
         GamePlatform
             The created GamePlatform object.
         '''
-        game_platform = GamePlatform(**data)
-        self.db.session.add(game_platform)
+        new_entry = game_platform.insert().values(data)
+        self.db.session.execute(new_entry)
         self.db.session.commit()
         return game_platform
     
-    def get(self, id):
+    def get(self, game_id, platform_id):
         '''
-        Retrieve a game platform relation by its ID.
+        Retrieve a game platform relation by its game and platform IDs.
 
         Parameters:
         ----------
-        id : int
-            The ID of the game platform to retrieve.
+        game_id : int
+            The ID of the game to retrieve.
+        platform_id : int
+            The ID of the platform to retrieve.
 
         Returns:
         -------
-        GamePlatform
-            The GamePlatform object with the provided ID, or None if not found.
+        dict
+            A dictionary representing the game platform relation, or None if not found.
         '''
-        return GamePlatform.query.get(id)
+        query = text(f'''
+        SELECT * FROM game_platforms 
+        WHERE game_id = :game_id AND platform_id = :platform_id
+        ''')
+        result = self.db.session.execute(query, {'game_id': game_id, 'platform_id': platform_id}).fetchone()
+        return dict(result) if result else None
 
-    def get_all(self):
+    def delete(self, game_id, platform_id):
         '''
-        Retrieve all game platforms relations.
-
-        Returns:
-        -------
-        list[GamePlatform]
-            A list of all GamePlatform objects in the database.
-        '''
-        return GamePlatform.query.all()
-
-    
-    def delete(self, game_platform):
-        '''
-        Delete a game platform relation.
+        Delete a game platform relation by its game and platform IDs.
 
         Parameters:
         ----------
-        game_platform : GamePlatform
-            The GamePlatform object to delete.
+        game_id : int
+            The ID of the game.
+        platform_id : int
+            The ID of the platform.
         '''
-        self.db.session.delete(game_platform)
+        query = game_platform.delete().where(
+            game_platform.c.game_id == game_id and game_platform.c.platform_id == platform_id
+        )
+        self.db.session.execute(query)
         self.db.session.commit()
-    
+
     def get_all_platforms(self, game_id):
         '''
         Retrieve all platforms for a given game.
@@ -105,14 +106,20 @@ class GamePlatformRepository:
         Parameters:
         ----------
         game_id : int
-            The ID of the game to retrieve game platforms for.
+            The ID of the game to retrieve platforms for.
 
         Returns:
         -------
-        list[GamePlatform]
-            A list of GamePlatform objects for the specified game.
+        list[dict]
+            A list of platforms associated with the given game as dictionaries.
         '''
-        return GamePlatform.query.filter_by(game_id=game_id).all()
+        query = text('''
+        SELECT p.* FROM platforms p 
+        JOIN game_platforms gp ON p.id = gp.platform_id 
+        WHERE gp.game_id = :game_id
+        ''')
+        results = self.db.session.execute(query, {'game_id': game_id}).fetchall()
+        return [dict(row) for row in results]
     
     def get_all_games(self, platform_id):
         '''
@@ -125,9 +132,15 @@ class GamePlatformRepository:
 
         Returns:
         -------
-        list[GamePlatform]
-            A list of GamePlatform objects for the specified platform.
+        list[dict]
+            A list of games associated with the given platform as dictionaries.
         '''
-        return GamePlatform.query.filter_by(platform_id=platform_id).all()
+        query = text('''
+        SELECT g.* FROM games g 
+        JOIN game_platforms gp ON g.id = gp.game_id 
+        WHERE gp.platform_id = :platform_id
+        ''')
+        results = self.db.session.execute(query, {'platform_id': platform_id}).fetchall()
+        return [dict(row) for row in results]
     
     
