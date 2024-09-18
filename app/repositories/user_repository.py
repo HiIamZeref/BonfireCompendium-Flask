@@ -4,8 +4,6 @@ from app import db, bcrypt
 from app.models.user import User
 
 
-
-
 class UserRepository:
     def __init__(
         self,
@@ -50,5 +48,8 @@ class UserRepository:
     
     def get_by_username(self, username):
         return User.query.filter_by(username=username).first()
+    
+    def check_password(self, hash_password, password):
+        return self.bcrypt.check_password_hash(hash_password, password)
     
     
