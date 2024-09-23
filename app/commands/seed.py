@@ -46,13 +46,18 @@ def seed_users_command():
 @seed_cli.command("all")
 def seed_command():
 
+    # No dependy seeds
     seed_developers()
-    seed_games()
     seed_game_statuses()
     seed_genres()
     seed_platforms()
     seed_publishers()
     seed_users()
+
+    # Dependency seeds
+    seed_games()
+
+    
     print('Seeds ran successfully!')
 
 
