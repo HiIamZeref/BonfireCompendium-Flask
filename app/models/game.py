@@ -1,6 +1,4 @@
 from app import db
-from app.models.game_platform import game_platform
-from app.models.user_gamelist_has_game import user_gamelist_has_game
 
 class Game(db.Model):
     """
@@ -52,8 +50,9 @@ class Game(db.Model):
     cover_image = db.Column(db.String(255), nullable=True)
 
     # Relationships
-    platforms = db.relationship('Platform', secondary=game_platform)
-    user_gamelist = db.relationship('UserGameList', secondary=user_gamelist_has_game)
+    genre = db.relationship('Genre', foreign_keys=[genre_id], backref='games')
+    developer = db.relationship('Developer', foreign_keys=[developer_id], backref='games')
+    publisher = db.relationship('Publisher', foreign_keys=[publisher_id], backref='games')
     
     def __repr__(self):
         return f'<Game {self.title}>'

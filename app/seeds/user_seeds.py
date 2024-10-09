@@ -1,5 +1,5 @@
 from app.repositories.user_repository import UserRepository
-from app.schemas.user_schema import UserSchema
+from app.schemas.user_schema import CreateOrDeleteUserSchema
 
 def seed_users(user_repository: UserRepository= UserRepository()):
     users = [
@@ -23,7 +23,7 @@ def seed_users(user_repository: UserRepository= UserRepository()):
         }
     ]
     for user in users:
-        user = UserSchema().load(user)
+        user = CreateOrDeleteUserSchema().load(user)
         user_repository.create(user)
 
     print('Users seeded!')
